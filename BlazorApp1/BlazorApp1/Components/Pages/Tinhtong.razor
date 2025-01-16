@@ -1,0 +1,29 @@
+﻿@page "/Tinhtong"
+@rendermode InteractiveServer
+
+<PageTitle>Tinhtong</PageTitle>
+
+
+<br />
+
+<MudNumericField @bind-Value="Number1" Label="Number 1" Variant="Variant.Outlined"></MudNumericField>
+<MudNumericField @bind-Value="Number2" Label="Number 2" Variant="Variant.Outlined"></MudNumericField>
+
+<div style="font-size:40px;">
+	Ta co @Number1 + @Number2 <button @onclick="CaculatorSum">=</button> @Sum 
+</div>
+<MudButton Variant="Variant.Filled" OnClick="CaculatorSum">Tinh</MudButton>
+@code {
+	int Number1 = 0;
+	int Number2 = 0;
+	int Sum=0;
+
+	private void CaculatorSum()
+	{
+		Sum = Number1 + Number2;
+	}
+	
+}
+
+
+

@@ -1,0 +1,135 @@
+﻿@page "/table"
+@rendermode InteractiveServer
+
+<PageTitle>Table</PageTitle>
+
+<div class="mb-5">
+	<MudTextField @bind-Value="NewID" Label="NhapMaSV" Variant="Variant.Outlined" ShrinkLabel></MudTextField>
+	<MudTextField @bind-Value="NewName" Label="NhapTen" Variant="Variant.Outlined" ShrinkLabel></MudTextField>
+	<MudTextField @bind-Value="NewClass" Label="NhapLop" Variant="Variant.Outlined" ShrinkLabel></MudTextField>
+	<MudNumericField @bind-Value="InputToan" Label="NhapDiemToan" Variant="Variant.Filled" Min="0.0" />
+	<MudNumericField @bind-Value="InputAnh" Label="NhapDiemAnh" Variant="Variant.Filled" Min="0.0" />
+	<MudNumericField @bind-Value="InputVan" Label="NhapDiemVan" Variant="Variant.Filled" Min="0.0" />
+	<MudNumericField @bind-Value="InputTin" Label="NhapDiemTin" Variant="Variant.Filled" Min="0.0" />
+	<MudButton Variant="Variant.Filled" color="Color.Primary" OnClick="StudentID"></MudButton>
+	<MudButton Variant="Variant.Filled" Color="Color.Default" OnClick="StudentName"></MudButton>
+	<MudButton Variant="Variant.Filled" Color="Color.Tertiary" OnClick="StudentClass"></MudButton>
+	<MudButton Variant="Variant.Filled" color="Color.Info" OnClick="StudentToan"></MudButton>
+	<MudButton Variant="Variant.Filled" color="Color.Inherit" OnClick="StudentAnh"></MudButton>
+	<MudButton Variant="Variant.Filled" color="Color.Secondary" OnClick="StudentVan"></MudButton>
+	<MudButton Variant="Variant.Filled" color="Color.Surface" OnClick="StudentTin"></MudButton> 
+
+</div>
+
+<MudTable Items="Students" Hover="true" Breakpoint="Breakpoint.Sm" LoadingProgressColor="Color.Info">
+	<HeaderContent>
+		<MudTh>Ma sinh vien</MudTh>
+		<MudTh>Lop</MudTh>
+		<MudTh>Ho va ten</MudTh>
+		<MudTh>Diem toan</MudTh>
+		<MudTh>Diem anh</MudTh>
+		<MudTh>Diem van</MudTh>
+		<MudTh>Diem tin</MudTh>
+	</HeaderContent>
+	<RowTemplate>
+		<MudTd>@context.ID</MudTd>
+		<MudTd>@context.Class</MudTd>
+		<MudTd>@context.Name</MudTd>
+		<MudTd>@context.Toan</MudTd>
+		<MudTd>@context.Anh</MudTd>
+		<MudTd>@context.Van</MudTd>
+		<MudTd>@context.Tin</MudTd>
+	</RowTemplate>
+</MudTable>
+
+<MudSwitch @bind-Value="_hidePosition" Color="Color.Primary">Hide <b>position</b> when Breakpoint=Xs</MudSwitch>
+<MudSwitch @bind-Value="_loading" Color="Color.Primary">Show Loading</MudSwitch>
+
+
+
+@code {
+	private bool _hidePosition;
+	private bool _loading;
+	class Student
+	{
+		public string ID { get; set; } = "";
+		public string Class { get; set; } = "";
+		public string Name { get; set; } = "";
+		public double Toan { get; set; }
+		public double Anh { get; set; }
+		public double Van { get; set; }
+		public double Tin { get; set; }
+	}
+
+	private List<Student> Students = [
+	new Student(){ ID = "100001", Class = "10A1", Name = "Nguyen Van A", Toan = 8, Anh = 7, Van = 8, Tin = 6},
+	new Student(){ ID = "100002", Class = "10A1", Name = "Nguyen Van B", Toan = 7, Anh = 7, Van = 7, Tin = 7},
+	new Student(){ ID = "100003", Class = "10A1", Name = "Nguyen Van C", Toan = 10, Anh = 7, Van = 8, Tin = 9},
+	];
+
+	private string NewName = "";
+	private string NewClass = "";
+	private string NewID = "";
+	private double InputToan ;
+	private double InputAnh ;
+	private double InputVan ;
+	private double InputTin ;
+
+	private void StudentName()
+	{
+		Students.Add(new Student()
+		{
+			Name = NewName,
+		});
+		StateHasChanged();
+	}
+	private void StudentClass()
+	{
+		Students.Add(new Student()
+			{
+				Class = NewClass,
+			});
+		StateHasChanged();
+	}
+	private void StudentID()
+	{
+		Students.Add(new Student()
+			{
+				ID = NewID,
+			});
+		StateHasChanged();
+	}
+	private void StudentToan()
+	{
+		Students.Add(new Student()
+			{
+				Toan = InputToan,
+			});
+		StateHasChanged();
+	}
+	private void StudentAnh()
+	{
+		Students.Add(new Student()
+			{
+				Anh = InputAnh,
+			});
+		StateHasChanged();
+	}
+	private void StudentVan()
+	{
+		Students.Add(new Student()
+			{
+				Van = InputVan,
+			});
+		StateHasChanged();
+	}
+	private void StudentTin()
+	{
+		Students.Add(new Student()
+			{
+				Tin = InputTin,
+			});
+		StateHasChanged();
+	}
+	
+}

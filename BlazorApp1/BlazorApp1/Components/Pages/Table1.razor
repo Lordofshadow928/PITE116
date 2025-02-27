@@ -38,6 +38,7 @@
     </RowTemplate>
 </MudTable>
 
+
 <MudMessageBox @ref="_createBox" Title="Create new student" CancelText="Cancel">
     <MessageContent>
         <div class="d-flex flex-column" style="width: 500px;">
@@ -56,6 +57,27 @@
     </MessageContent>
     <YesButton>
         <MudButton Class="m-3" Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add">Create</MudButton>
+    </YesButton>
+</MudMessageBox>
+
+<MudMessageBox @ref="_editBox" Title="Edit student" CancelText="Cancel">
+    <MessageContent>
+        <div class="d-flex flex-column" style="width: 500px;">
+            <MudTextField @bind-Value="editStudent.Id" ReadOnly Label="Id" ShrinkLabel Variant="Variant.Outlined" />
+            <MudTextField @bind-Value="editStudent.Class" ReadOnly Label="Tên lớp" ShrinkLabel Variant="Variant.Outlined" />
+            <MudTextField @bind-Value="editStudent.Name" ReadOnly Label="Họ và tên" ShrinkLabel Variant="Variant.Outlined" />
+            <div class="d-flex flex-row">
+                <MudNumericField @bind-Value="editStudent.Toan" Class="me-3" Label="Điểm Toán" Min="0" Max="10" Variant="Variant.Outlined" />
+                <MudNumericField @bind-Value="editStudent.Anh" Label="Điểm Anh" Min="0" Max="10" Variant="Variant.Outlined" />
+            </div>
+            <div class="d-flex flex-row">
+                <MudNumericField @bind-Value="editStudent.Van" Class="me-3" Label="Điểm Văn" Min="0" Max="10" Variant="Variant.Outlined" />
+                <MudNumericField @bind-Value="editStudent.Tin" Label="Điểm Tin" Min="0" Max="10" Variant="Variant.Outlined" />
+            </div>
+        </div>
+    </MessageContent>
+    <YesButton>
+        <MudButton Class="m-3" Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add">Update</MudButton>
     </YesButton>
 </MudMessageBox>
 
@@ -92,7 +114,7 @@
         newStudent.Anh = 0;
         newStudent.Van = 0;
         newStudent.Tin = 0;
-        bool? result = await _createBox.ShowAsync();
+        var result = await _createBox.ShowAsync();
         if (result == true)
         {
             // Kiểm tra dữ liệu
@@ -126,27 +148,45 @@
 
     private async Task OpenDeleteDialog(Student student)
     {
-    //     [Inject] private IDialogService DialogService { get; set; }
+        //     [Inject] private IDialogService DialogService { get; set; }
 
-    //     string state = "Message box hasn't been opened yet";
+        //     string state = "Message box hasn't been opened yet";
 
-    // private async void OnButtonClicked()
-    // {
-        bool? result = await DialogService.ShowMessageBox(
+        // private async void OnButtonClicked()
+        // {
+        var result = await DialogService.ShowMessageBox(
             "Ban co muon xoa du lieu ?",
             "Hanh dong nay khong the hoan tac!",
             yesText: "Xoa!", cancelText: "Huy");
-        // student.Class = result == null ? "Canceled" : "Deleted!";
-        // StateHasChanged();
-    // }
+        //student.Class = result == null ? "Canceled" : "Deleted!";
+        //StateHasChanged();
+        //}
+        if (result != true) return;
         Students.Remove(student);
         StateHasChanged();
     }
 
+    private MudMessageBox _editBox = null!;
+    private Student editStudent = new();
+
     private async Task OpenEditDialog(Student student)
     {
-        student.Tin = 0;
+        editStudent.Id = student.Id;
+        editStudent.Class = student.Class;
+        editStudent.Name = student.Name;
+        editStudent.Toan = student.Toan;
+        editStudent.Anh = student.Anh;
+        editStudent.Van = student.Van;
+        editStudent.Tin = student.Tin;
 
-        StateHasChanged();
+        var result = await _editBox.ShowAsync();
+        if (result == true)
+        {
+            student.Toan = editStudent.Toan;
+            student.Anh = editStudent.Anh;
+            student.Van = editStudent.Van;
+            student.Tin = editStudent.Tin;
+            StateHasChanged();
+        }
     }
 }
